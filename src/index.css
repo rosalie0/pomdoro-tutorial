@@ -11,3 +11,10 @@ button {
   border: 0;
   width: 10rem;
 }
+
+/* Hide the up/down arrows for number inputs. */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

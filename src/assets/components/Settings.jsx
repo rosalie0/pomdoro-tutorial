@@ -14,14 +14,22 @@ const Settings = () => {
     display: "flex",
     gap: "1rem",
     justifyContent: "center",
+    alignItems: "center",
     padding: "1rem",
     fontSize: "1.75rem",
   };
 
   const inputStyles = {
-    fontSize: "1.75rem",
+    padding: "0.5rem",
+    borderStyle: "none none solid",
+    height: "100%",
     width: "5rem",
+    fontSize: "1.75rem",
     textAlign: "center",
+    backgroundColor: "transparent",
+    borderBottom: "2px solid white",
+    fontFamily: "monospace",
+    color: "white",
   };
   return (
     <div style={containerStyles}>
