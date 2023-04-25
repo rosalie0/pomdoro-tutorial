@@ -1,5 +1,8 @@
 const Settings = () => {
   const containerStyles = {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
     width: "80vw",
     height: "auto",
     padding: "4rem",
@@ -12,22 +15,28 @@ const Settings = () => {
     gap: "1rem",
     justifyContent: "center",
     padding: "1rem",
+    fontSize: "1.75rem",
   };
 
+  const inputStyles = {
+    fontSize: "1.75rem",
+    width: "5rem",
+    textAlign: "center",
+  };
   return (
     <div style={containerStyles}>
-      <h2>Settings</h2>
+      <h2 style={{ fontSize: "2rem" }}>Settings</h2>
       <div style={eachLineStyles}>
         <p>Work minutes:</p>
-        <input type="number" />
+        <input style={inputStyles} type="number" />
       </div>
 
       <div style={eachLineStyles}>
         <p>Break minutes:</p>
-        <input type="number" />
+        <input style={inputStyles} type="number" />
       </div>
 
-      <button>OK</button>
+      <button style={{ marginTop: "5rem", marginBottom: "5rem" }}>OK</button>
     </div>
   );
 };

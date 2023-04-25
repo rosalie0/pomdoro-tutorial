@@ -3,3 +3,11 @@ body {
   color: #f1f5f9;
   font-family: "Courier New", Courier, monospace;
 }
+
+button {
+  padding: 1.5rem;
+  border-radius: 1rem;
+  font-size: 1.5rem;
+  border: 0;
+  width: 10rem;
+}
