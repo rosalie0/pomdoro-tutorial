@@ -2,7 +2,7 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import PlayButton from "./PlayButton";
 import PauseButton from "./PauseButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // info on how to style/use the React Circular Progressbar here:
 // https://www.npmjs.com/package/react-circular-progressbar
@@ -21,7 +21,25 @@ const Timer = () => {
     border: "2px solid red",
   };
 
+  const timerTotal = 15; // 15 minutes.
+
   const [isPaused, setIsPaused] = useState(false); // toggles what button to show
+  const [secondsLeft, setSecondsLeft] = useState(0);
+
+  const initTimer = () => {
+    setSecondsLeft(timerTotal * 60);
+  };
+
+  useEffect(() => {
+    initTimer();
+
+    // every second, we want to run...
+    setInterval(() => {
+      // if paused, dont need to do anything.
+      if (isPaused) return;
+      // if timer has 0 seconds remaining
+    }, 1000);
+  }, [isPaused]);
 
   return (
     <div>
