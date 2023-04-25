@@ -1,7 +1,11 @@
-import { useState } from "react";
+import Timer from "./Timer";
 
 function App() {
-  return <>hello world</>;
+  return (
+    <>
+      <Timer />
+    </>
+  );
 }
 
 export default App;
