@@ -1,12 +1,14 @@
-import React from "react";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import PlayButton from "./PlayButton";
+import PauseButton from "./PauseButton";
+import { useState } from "react";
 
 // info on how to style/use the React Circular Progressbar here:
 // https://www.npmjs.com/package/react-circular-progressbar
 
 const Timer = () => {
+  // eslint-disable-next-line no-unused-vars
   const red400 = "#F87171";
   const emerald400 = "#34D399";
   const bluegrey100 = "#F1F5F9";
@@ -18,9 +20,11 @@ const Timer = () => {
     margin: "0px auto",
     border: "2px solid red",
   };
+
+  const [isPaused, setIsPaused] = useState(false); // toggles what button to show
+
   return (
     <div>
-      Timer
       <div style={containerStyles}>
         <CircularProgressbar
           styles={buildStyles({
@@ -32,7 +36,22 @@ const Timer = () => {
           text={`${percentage}%`}
         />
       </div>
-      <PlayButton buttonStyles={{ color: "red" }} />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          padding: "2rem",
+        }}
+      >
+        {isPaused ? (
+          <PauseButton setIsPaused={setIsPaused} />
+        ) : (
+          <PlayButton
+            setIsPaused={setIsPaused}
+            buttonStyles={{ color: "red" }}
+          />
+        )}
+      </div>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-const PlayButton = ({ buttonStyles, setIsPaused }) => {
+const PauseButton = ({ buttonStyles, setIsPaused }) => {
   const styles = {
     padding: "1.5rem",
     borderRadius: "1rem",
@@ -8,13 +8,14 @@ const PlayButton = ({ buttonStyles, setIsPaused }) => {
   };
 
   const onClickHandler = () => {
-    setIsPaused(true); // if the PLAY btn is being clicked, pause should now become TRUE.
+    setIsPaused(false); // if the PAUSE btn is being clicked, pause should now become FALSE.
   };
+
   return (
     <button style={styles} onClick={onClickHandler}>
-      ▶️ Play
+      ⏸️ Pause
     </button>
   );
 };
 
-export default PlayButton;
+export default PauseButton;
