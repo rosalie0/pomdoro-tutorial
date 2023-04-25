@@ -18,3 +18,14 @@ input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+/* classes for font color */
+.text-red400 {
+  color: #f87171;
+}
+.text-emerald400 {
+  color: #34d399;
+}
+.text-bluegrey100 {
+  color: #f1f5f9;
+}

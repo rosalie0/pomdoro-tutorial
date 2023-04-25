@@ -27,21 +27,21 @@ const Settings = () => {
     fontSize: "1.75rem",
     textAlign: "center",
     backgroundColor: "transparent",
-    borderBottom: "2px solid white",
+    borderBottom: "2px solid",
     fontFamily: "monospace",
-    color: "white",
   };
   return (
     <div style={containerStyles}>
       <h2 style={{ fontSize: "2rem" }}>Settings</h2>
-      <div style={eachLineStyles}>
+
+      <div style={eachLineStyles} className="text-red400">
         <p>Work minutes:</p>
-        <input style={inputStyles} type="number" />
+        <input style={inputStyles} className="text-red400" type="number" />
       </div>
 
-      <div style={eachLineStyles}>
+      <div style={eachLineStyles} className="text-emerald400">
         <p>Break minutes:</p>
-        <input style={inputStyles} type="number" />
+        <input style={inputStyles} className="text-emerald400" type="number" />
       </div>
 
       <button style={{ marginTop: "5rem", marginBottom: "5rem" }}>OK</button>
