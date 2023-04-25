@@ -20,7 +20,6 @@ const Settings = () => {
   };
 
   const inputStyles = {
-    padding: "0.5rem",
     borderStyle: "none none solid",
     height: "100%",
     width: "5rem",
