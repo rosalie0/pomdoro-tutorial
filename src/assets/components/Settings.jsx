@@ -1,3 +1,7 @@
+import colors from "../../utils/colors";
+import { useContext } from "react";
+import SettingsContext from "../../utils/SettingsContext";
+
 const Settings = () => {
   const containerStyles = {
     display: "flex",
@@ -29,21 +33,39 @@ const Settings = () => {
     borderBottom: "2px solid",
     fontFamily: "monospace",
   };
+  const okButton = {
+    cursor: "pointer",
+    marginTop: "5rem",
+    marginBottom: "5rem",
+    backgroundColor: colors.bluegrey500,
+    color: colors.bluegrey100,
+  };
+  const settingsInfo = useContext(SettingsContext);
+
   return (
     <div style={containerStyles}>
       <h2 style={{ fontSize: "2rem" }}>Settings</h2>
-
       <div style={eachLineStyles} className="text-red400">
         <p>Work minutes:</p>
-        <input style={inputStyles} className="text-red400" type="number" />
+        <input
+          style={inputStyles}
+          className="text-red400"
+          type="number"
+          value={settingsInfo.workMinutes}
+          onChange={(event) => settingsInfo.setWorkMinutes(event.target.value)}
+        />
       </div>
-
       <div style={eachLineStyles} className="text-emerald400">
         <p>Break minutes:</p>
-        <input style={inputStyles} className="text-emerald400" type="number" />
+        <input
+          style={inputStyles}
+          className="text-emerald400"
+          type="number"
+          value={settingsInfo.breakMinutes}
+          onChange={(event) => settingsInfo.setBreakMinutes(event.target.value)}
+        />
       </div>
-
-      <button style={{ marginTop: "5rem", marginBottom: "5rem" }}>OK</button>
+      <button style={okButton}>OK</button>
     </div>
   );
 };
