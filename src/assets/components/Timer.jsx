@@ -1,6 +1,6 @@
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import PlayButton from "./PlayButton";
+import StartButton from "./StartButton";
 import PauseButton from "./PauseButton";
 import { useContext, useEffect, useState } from "react";
 import "../../index.css";
@@ -70,7 +70,7 @@ const Timer = () => {
         {isPaused ? (
           <PauseButton setIsPaused={setIsPaused} />
         ) : (
-          <PlayButton
+          <StartButton
             setIsPaused={setIsPaused}
             buttonStyles={{ color: "red" }}
           />

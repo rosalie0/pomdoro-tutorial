@@ -1,4 +1,4 @@
-const PlayButton = ({ buttonStyles, setIsPaused }) => {
+const StartButton = ({ buttonStyles, setIsPaused }) => {
   const onClickHandler = () => {
     setIsPaused(true); // if the PLAY btn is being clicked, pause should now become TRUE.
   };
@@ -13,4 +13,4 @@ const PlayButton = ({ buttonStyles, setIsPaused }) => {
   );
 };
 
-export default PlayButton;
+export default StartButton;
