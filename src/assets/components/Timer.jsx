@@ -2,21 +2,16 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import StartButton from "./StartButton";
 import PauseButton from "./PauseButton";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import "../../index.css";
 import SettingsContext from "../../utils/SettingsContext";
+import colors from "../../utils/colors";
 
 // info on how to style/use the React Circular Progressbar here:
 // https://www.npmjs.com/package/react-circular-progressbar
 
 const Timer = () => {
-  const settingsInfo = useContext(SettingsContext);
-  // eslint-disable-next-line no-unused-vars
-  const red400 = "#F87171";
-  const emerald400 = "#34D399";
-  const bluegrey100 = "#F1F5F9";
-
-  const percentage = 66;
+  // PROGRESS BAR
   // The progressbar is designed to fill the width of its container.
   const containerStyles = {
     width: "50vw",
@@ -24,25 +19,60 @@ const Timer = () => {
     border: "2px solid red",
   };
 
-  const timerTotal = 15; // 15 minutes.
-
+  const settingsInfo = useContext(SettingsContext);
   const [isPaused, setIsPaused] = useState(false); // toggles what button to show
+  const [mode, setMode] = useState("work"); // work/break/null
   const [secondsLeft, setSecondsLeft] = useState(0);
 
   const initTimer = () => {
-    setSecondsLeft(timerTotal * 60);
+    // by default on startup, start with work minutes.
+    setSecondsLeft(settingsInfo.workMinutes * 60);
   };
 
+  const secondsLeftRef = useRef(secondsLeft);
+  const isPausedRef = useRef(isPaused);
+  const modeRef = useRef(mode);
+
+  // const startTimer = () => {
+  //   timerId.current = setInterval(() => {}, 1000);
+  // };
+
+  const changeMode = () => {
+    // if current mode is 'work', now will be Break!
+    if (mode === "work") {
+      setMode("break");
+      modeRef.current = "break"; // update ref
+      setSecondsLeft(settingsInfo.breakMinutes * 60);
+    } else {
+      setMode("work");
+      modeRef.current = "work"; // update ref
+      setSecondsLeft(settingsInfo.workMinutes * 60);
+    }
+  };
+
+  const tick = () => {
+    secondsLeftRef.current--;
+    setSecondsLeft(secondsLeft - 1); // set it to secondsLeftRef.current maybe?
+  };
   useEffect(() => {
     initTimer();
-
     // every second, we want to run...
-    setInterval(() => {
-      // if paused, dont need to do anything.
+    const intervalId = setInterval(() => {
+      // if timer is Paused, dont need to do anything.
       if (isPaused) return;
-      // if timer has 0 seconds remaining
+      // if timer has 0 seconds remaining, change mode, and we're done.
+      if (secondsLeft === 0) return changeMode();
+      tick(); // else, tick.
     }, 1000);
-  }, [isPaused]);
+
+    return clearInterval(intervalId);
+  }, [settingsInfo]);
+
+  const totalSeconds =
+    mode === "work"
+      ? settingsInfo.workMinutes * 60
+      : settingsInfo.breakMinutes * 60;
+  const percentage = Math.round(secondsLeft / totalSeconds) * 100;
 
   return (
     <div>
@@ -50,8 +80,8 @@ const Timer = () => {
         <CircularProgressbar
           styles={buildStyles({
             textColor: "#f88",
-            pathColor: emerald400, // this is the filled part of the prog
-            trailColor: bluegrey100, // this is the unfilled part of the prog
+            pathColor: colors.emerald400, // this is the filled part of the prog
+            trailColor: colors.bluegrey100, // this is the unfilled part of the prog
           })}
           value={percentage}
           text={`${percentage}%`}
