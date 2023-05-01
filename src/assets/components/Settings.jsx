@@ -65,7 +65,13 @@ const Settings = () => {
           onChange={(event) => settingsInfo.setBreakMinutes(event.target.value)}
         />
       </div>
-      <button className="secondary-button" style={okButton}>
+      <button
+        className="secondary-button"
+        style={okButton}
+        onClick={() => {
+          settingsInfo.setShowSettings(false);
+        }}
+      >
         OK
       </button>
     </div>

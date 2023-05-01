@@ -2,13 +2,15 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import PlayButton from "./PlayButton";
 import PauseButton from "./PauseButton";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "../../index.css";
+import SettingsContext from "../../utils/SettingsContext";
 
 // info on how to style/use the React Circular Progressbar here:
 // https://www.npmjs.com/package/react-circular-progressbar
 
 const Timer = () => {
+  const settingsInfo = useContext(SettingsContext);
   // eslint-disable-next-line no-unused-vars
   const red400 = "#F87171";
   const emerald400 = "#34D399";
@@ -74,7 +76,14 @@ const Timer = () => {
           />
         )}
 
-        <button className="secondary-button">settings</button>
+        <button
+          className="secondary-button"
+          onClick={() => {
+            settingsInfo.setShowSettings(true);
+          }}
+        >
+          settings
+        </button>
       </div>
     </div>
   );
