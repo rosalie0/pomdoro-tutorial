@@ -23,19 +23,20 @@ const Timer = () => {
   const [isPaused, setIsPaused] = useState(false); // toggles what button to show
   const [mode, setMode] = useState("work"); // work/break/null
   const [secondsLeft, setSecondsLeft] = useState(0);
-
-  const initTimer = () => {
-    // by default on startup, start with work minutes.
-    setSecondsLeft(settingsInfo.workMinutes * 60);
-  };
-
   const secondsLeftRef = useRef(secondsLeft);
   const isPausedRef = useRef(isPaused);
   const modeRef = useRef(mode);
 
-  // const startTimer = () => {
-  //   timerId.current = setInterval(() => {}, 1000);
-  // };
+  const initTimer = () => {
+    // by default on startup, start with work minutes.
+    secondsLeftRef.current = settingsInfo.workMinutes * 60;
+    setSecondsLeft(settingsInfo.workMinutes * 60);
+  };
+
+  const tick = () => {
+    secondsLeftRef.current--;
+    setSecondsLeft(secondsLeftRef.current);
+  };
 
   const changeMode = () => {
     // if current mode is 'work', now will be Break!
@@ -43,29 +44,28 @@ const Timer = () => {
       setMode("break");
       modeRef.current = "break"; // update ref
       setSecondsLeft(settingsInfo.breakMinutes * 60);
+      secondsLeftRef.current = settingsInfo.workMinutes * 60;
     } else {
       setMode("work");
       modeRef.current = "work"; // update ref
       setSecondsLeft(settingsInfo.workMinutes * 60);
+      secondsLeftRef.current = settingsInfo.workMinutes * 60;
     }
   };
 
-  const tick = () => {
-    secondsLeftRef.current--;
-    setSecondsLeft(secondsLeft - 1); // set it to secondsLeftRef.current maybe?
-  };
   useEffect(() => {
-    initTimer();
+    initTimer(); // on mount, start at work mins.
+
     // every second, we want to run...
     const intervalId = setInterval(() => {
       // if timer is Paused, dont need to do anything.
-      if (isPaused) return;
+      if (isPausedRef.current) return;
       // if timer has 0 seconds remaining, change mode, and we're done.
-      if (secondsLeft === 0) return changeMode();
+      if (secondsLeftRef.current === 0) return changeMode();
       tick(); // else, tick.
     }, 1000);
 
-    return clearInterval(intervalId);
+    return () => clearInterval(intervalId);
   }, [settingsInfo]);
 
   const totalSeconds =
@@ -74,17 +74,22 @@ const Timer = () => {
       : settingsInfo.breakMinutes * 60;
   const percentage = Math.round(secondsLeft / totalSeconds) * 100;
 
+  const minutesDisplay = Math.floor(secondsLeft / 60);
+  let secondsDisplay = secondsLeft % 60;
+  if (secondsDisplay < 10) secondsDisplay = "0" + secondsDisplay;
+  const timeDisplay = `${minutesDisplay}:${secondsDisplay}`;
+  console.log(timeDisplay);
   return (
     <div>
       <div style={containerStyles}>
         <CircularProgressbar
           styles={buildStyles({
-            textColor: "#f88",
+            textColor: colors.bluegrey100,
             pathColor: colors.emerald400, // this is the filled part of the prog
             trailColor: colors.bluegrey100, // this is the unfilled part of the prog
           })}
           value={percentage}
-          text={`${percentage}%`}
+          text={timeDisplay}
         />
       </div>
       <div
