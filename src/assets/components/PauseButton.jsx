@@ -4,7 +4,11 @@ const PauseButton = ({ buttonStyles, setIsPaused }) => {
   };
 
   return (
-    <button style={buttonStyles} onClick={onClickHandler}>
+    <button
+      className="main-button"
+      style={buttonStyles}
+      onClick={onClickHandler}
+    >
       ⏸️ Pause
     </button>
   );

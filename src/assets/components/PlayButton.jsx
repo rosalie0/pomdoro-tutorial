@@ -3,7 +3,11 @@ const PlayButton = ({ buttonStyles, setIsPaused }) => {
     setIsPaused(true); // if the PLAY btn is being clicked, pause should now become TRUE.
   };
   return (
-    <button style={buttonStyles} onClick={onClickHandler}>
+    <button
+      className="main-button"
+      style={buttonStyles}
+      onClick={onClickHandler}
+    >
       ▶️ Play
     </button>
   );

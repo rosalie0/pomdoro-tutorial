@@ -3,6 +3,7 @@ import "react-circular-progressbar/dist/styles.css";
 import PlayButton from "./PlayButton";
 import PauseButton from "./PauseButton";
 import { useEffect, useState } from "react";
+import "../../index.css";
 
 // info on how to style/use the React Circular Progressbar here:
 // https://www.npmjs.com/package/react-circular-progressbar
@@ -57,7 +58,10 @@ const Timer = () => {
       <div
         style={{
           display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
           justifyContent: "center",
+          alignItems: "center",
           padding: "2rem",
         }}
       >
@@ -69,6 +73,8 @@ const Timer = () => {
             buttonStyles={{ color: "red" }}
           />
         )}
+
+        <button className="secondary-button">settings</button>
       </div>
     </div>
   );

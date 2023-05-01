@@ -7,13 +7,12 @@ const Settings = () => {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    width: "80vw",
+    maxWidth: "80vw",
     height: "auto",
     padding: "4rem",
     border: "2px solid white",
     margin: "auto auto",
   };
-
   const eachLineStyles = {
     display: "flex",
     gap: "1rem",
@@ -22,7 +21,6 @@ const Settings = () => {
     padding: "1rem",
     fontSize: "1.75rem",
   };
-
   const inputStyles = {
     borderStyle: "none none solid",
     height: "100%",
@@ -34,12 +32,14 @@ const Settings = () => {
     fontFamily: "monospace",
   };
   const okButton = {
+    fontSize: "1.5rem",
     cursor: "pointer",
     marginTop: "5rem",
     marginBottom: "5rem",
     backgroundColor: colors.bluegrey500,
     color: colors.bluegrey100,
   };
+
   const settingsInfo = useContext(SettingsContext);
 
   return (
@@ -65,7 +65,9 @@ const Settings = () => {
           onChange={(event) => settingsInfo.setBreakMinutes(event.target.value)}
         />
       </div>
-      <button style={okButton}>OK</button>
+      <button className="secondary-button" style={okButton}>
+        OK
+      </button>
     </div>
   );
 };
