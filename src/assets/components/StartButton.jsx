@@ -1,13 +1,6 @@
-const StartButton = ({ buttonStyles, setIsPaused }) => {
-  const onClickHandler = () => {
-    setIsPaused(true); // if the PLAY btn is being clicked, pause should now become TRUE.
-  };
+const StartButton = (props) => {
   return (
-    <button
-      className="main-button"
-      style={buttonStyles}
-      onClick={onClickHandler}
-    >
+    <button {...props} className="main-button">
       ▶️ Play
     </button>
   );

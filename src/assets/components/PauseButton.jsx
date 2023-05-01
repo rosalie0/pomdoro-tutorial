@@ -1,14 +1,6 @@
-const PauseButton = ({ buttonStyles, setIsPaused }) => {
-  const onClickHandler = () => {
-    setIsPaused(false); // if the PAUSE btn is being clicked, pause should now become FALSE.
-  };
-
+const PauseButton = (props) => {
   return (
-    <button
-      className="main-button"
-      style={buttonStyles}
-      onClick={onClickHandler}
-    >
+    <button className="main-button" {...props}>
       ⏸️ Pause
     </button>
   );

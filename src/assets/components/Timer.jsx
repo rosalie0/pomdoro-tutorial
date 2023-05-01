@@ -3,9 +3,11 @@ import "react-circular-progressbar/dist/styles.css";
 import StartButton from "./StartButton";
 import PauseButton from "./PauseButton";
 import { useContext, useEffect, useRef, useState } from "react";
-import "../../index.css";
 import SettingsContext from "../../utils/SettingsContext";
 import colors from "../../utils/colors";
+import getTimeDisplay from "./timeDisplay";
+import ModeDisplay from "./ModeDisplay";
+import "../../index.css";
 
 // info on how to style/use the React Circular Progressbar here:
 // https://www.npmjs.com/package/react-circular-progressbar
@@ -16,49 +18,49 @@ const Timer = () => {
   const containerStyles = {
     width: "50vw",
     margin: "0px auto",
-    border: "2px solid red",
   };
 
   const settingsInfo = useContext(SettingsContext);
-  const [isPaused, setIsPaused] = useState(false); // toggles what button to show
+  const [isPaused, setIsPaused] = useState(true); // toggles what button to show
   const [mode, setMode] = useState("work"); // work/break/null
   const [secondsLeft, setSecondsLeft] = useState(0);
   const secondsLeftRef = useRef(secondsLeft);
   const isPausedRef = useRef(isPaused);
   const modeRef = useRef(mode);
 
-  const initTimer = () => {
-    // by default on startup, start with work minutes.
-    secondsLeftRef.current = settingsInfo.workMinutes * 60;
-    setSecondsLeft(settingsInfo.workMinutes * 60);
-  };
-
   const tick = () => {
     secondsLeftRef.current--;
     setSecondsLeft(secondsLeftRef.current);
   };
 
-  const changeMode = () => {
-    // if current mode is 'work', now will be Break!
-    if (mode === "work") {
-      setMode("break");
-      modeRef.current = "break"; // update ref
-      setSecondsLeft(settingsInfo.breakMinutes * 60);
-      secondsLeftRef.current = settingsInfo.workMinutes * 60;
-    } else {
-      setMode("work");
-      modeRef.current = "work"; // update ref
-      setSecondsLeft(settingsInfo.workMinutes * 60);
-      secondsLeftRef.current = settingsInfo.workMinutes * 60;
-    }
-  };
-
   useEffect(() => {
+    const initTimer = () => {
+      // by default on startup, start with work minutes.
+      secondsLeftRef.current = settingsInfo.workMinutes * 60;
+      setSecondsLeft(settingsInfo.workMinutes * 60);
+    };
+
+    const changeMode = () => {
+      // if current mode is 'work', now will be Break!
+      if (modeRef.current === "work") {
+        setMode("break");
+        modeRef.current = "break"; // update ref
+        setSecondsLeft(settingsInfo.breakMinutes * 60);
+        secondsLeftRef.current = settingsInfo.breakMinutes * 60;
+      } else {
+        setMode("work");
+        modeRef.current = "work"; // update ref
+        setSecondsLeft(settingsInfo.workMinutes * 60);
+        secondsLeftRef.current = settingsInfo.workMinutes * 60;
+      }
+    };
+
     initTimer(); // on mount, start at work mins.
 
     // every second, we want to run...
     const intervalId = setInterval(() => {
       // if timer is Paused, dont need to do anything.
+      console.log(isPausedRef.current);
       if (isPausedRef.current) return;
       // if timer has 0 seconds remaining, change mode, and we're done.
       if (secondsLeftRef.current === 0) return changeMode();
@@ -72,23 +74,24 @@ const Timer = () => {
     mode === "work"
       ? settingsInfo.workMinutes * 60
       : settingsInfo.breakMinutes * 60;
-  const percentage = Math.round(secondsLeft / totalSeconds) * 100;
 
-  const minutesDisplay = Math.floor(secondsLeft / 60);
-  let secondsDisplay = secondsLeft % 60;
-  if (secondsDisplay < 10) secondsDisplay = "0" + secondsDisplay;
-  const timeDisplay = `${minutesDisplay}:${secondsDisplay}`;
-  console.log(timeDisplay);
+  const percentOfTimeLeft = Math.round((secondsLeft / totalSeconds) * 100);
+  console.log({ secondsLeft, totalSeconds, percentOfTimeLeft });
+  const percentOfTimeElapsed = 100 - percentOfTimeLeft;
+  const timeDisplay = getTimeDisplay(secondsLeft);
+
   return (
     <div>
+      <ModeDisplay mode={mode} />
       <div style={containerStyles}>
         <CircularProgressbar
           styles={buildStyles({
             textColor: colors.bluegrey100,
-            pathColor: colors.emerald400, // this is the filled part of the prog
-            trailColor: colors.bluegrey100, // this is the unfilled part of the prog
+            // pathColor is the FILLED part of the progress. trail is UNFILLED.
+            pathColor: mode === "work" ? colors.red400 : colors.emerald400,
+            trailColor: colors.bluegrey100,
           })}
-          value={percentage}
+          value={percentOfTimeElapsed}
           text={timeDisplay}
         />
       </div>
@@ -103,11 +106,18 @@ const Timer = () => {
         }}
       >
         {isPaused ? (
-          <PauseButton setIsPaused={setIsPaused} />
-        ) : (
           <StartButton
-            setIsPaused={setIsPaused}
-            buttonStyles={{ color: "red" }}
+            onClick={() => {
+              setIsPaused(false);
+              isPausedRef.current = false;
+            }}
+          />
+        ) : (
+          <PauseButton
+            onClick={() => {
+              setIsPaused(true);
+              isPausedRef.current = true;
+            }}
           />
         )}
 
